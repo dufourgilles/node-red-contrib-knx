@@ -78,7 +78,7 @@
     <ol class="node-ports">
         <li>switch input
             <dt>payload
-                <span class="property-type">boolean</span>
+                <span class="property-type">0|1</span>
             </dt>
             <dd> A boolean that will be used to turn on/off a switch.  </dd>
         </li>
@@ -94,13 +94,13 @@
         <li>raw output
             <dl class="message-properties">
                 <dt>payload <span class="property-type">string</span></dt>
-                <dd>hex encoded buffer string as received from KNX Gateway and not decoded.</dd>
+                <dd>A javascript Buffer as received from KNX Gateway and not decoded.</dd>
             </dl>
         </li>
         <li>json output
             <dl class="message-properties">
                 <dt>payload <span class="property-type">object</span></dt>
-                <dd>A JavaScript object containing the result of the function call.</dd>
+                <dd>A JavaScript object containing the KNX source address, destination address, the raw buffer and decoded value.</dd>
             </dl>
         </li>
         <li>value output
@@ -110,15 +110,7 @@
             </dl>
         </li>
     </ol>
-    <h3>Details</h3>
-    <p><code>msg.payload</code> is used as a string to set the value of the parameter in case of Ember Parameter.
-        For an Ember Function, it should contain the list of arguments to pass to the function.
-        It can be in the form of a string that will be converted to a javascript object.
-        Or you can pass a JSON object directly in <code>msg.payload.args</code>.</p>
-    <p>Each argument should have a type and a value. ie: <code>{"type": 1, value: 88}</code></p>
-    <p>The argument types are <code>1: integer,  2: real, 3: string, 4: bool, 5: trigger, 6: enum, 7: octets</code></p>
-    <p>The output for a function is the result of the function call. It is a javascript object like <code>{"invocationId":5,"success":true,"result":[{"type":"integer","value":105}]}</code></p>
-
+    
     <h3>References</h3>
     <ul>
         <li><a>https://github.com/dufourgilles/knx-ip</a> - the nodes github repository</li>

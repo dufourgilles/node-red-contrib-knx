@@ -22,7 +22,7 @@ A KNX Object type is also required to properly parse the received data from KNX 
 ### Input Pin
 The input pin of the node takes different type of message payloads.
 Each object type will have its own format.
-For example, a lamp or binary controller, takes boolean
+For example, a lamp or binary controller, takes a number 0 or 1
 
 ### Output Pin
 The data format of the output pin can be configured:
