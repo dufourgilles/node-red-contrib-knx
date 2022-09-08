@@ -1,11 +1,11 @@
-# node-red-contrib-knx
+# node-red-contrib-knxip
 Simple KNX client node for home automation supporting KNX.
 
 ## install
-Inside your node-red directory, install the NPM node-red-contrib-knx package.
+Inside your node-red directory, install the NPM node-red-contrib-knxip package.
 
 ```
-npm install node-red-contrib-knx
+npm install node-red-contrib-knxip
 ```
 
 ##  knx-gateway node 
