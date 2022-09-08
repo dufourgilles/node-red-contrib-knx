@@ -1,0 +1,73 @@
+<script type="text/javascript">
+    RED.nodes.registerType('knx-gateway',{
+        category: 'config',
+        defaults: {
+            name: {value:"knxgateway"},
+            host: {value:"localhost",required:true},
+            port: {value:9000,required:true,validate:RED.validators.number()},
+            localhost: {value: '127.0.0.1'},
+            knxid: {value: '1.1.100', required: true}
+        },
+        label: function() {
+            return this.name || this.host+":"+this.port;
+        },
+        oneditsave() {
+            console.log("save");
+        },
+        oneditprepare(a) {
+            const self = this;            
+            try {
+                $('#node-input-path').autocomplete('destroy');                
+            } catch (err) { 
+                console.log(err);
+            }
+
+            $('#node-discovery').click(() => {
+                $('#node-discovery-icon').removeClass('fa-search');
+                $('#node-discovery-icon').addClass('spinner');
+                $('#node-discovery').addClass('disabled');
+                const localhost = $('#node-config-input-localhost');
+                const knxid = $('node-config-input-knxid');
+                const host = document.getElementById('node-config-input-host');
+                const port = document.getElementById('node-config-input-port');
+                const localhostVal = localhost.val() || "127.0.0.1";
+                const knxidVal = knxid.val() || '1.1.100'
+                $.get('knx/discover/' + localhostVal + '/' + knxidVal, data => {
+                    const [ip,destport] = data.split(":");
+                    host.value = ip;
+                    port.value = destport;
+                }).fail((err) => {
+                    console.log(err);
+                }).always(() => {
+                    $('#node-discovery-icon').addClass('fa-search');
+                    $('#node-discovery-icon').removeClass('spinner');
+                    $('#node-discovery').removeClass('disabled');
+                });
+            });
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="knx-gateway">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-host"><i class="icon-bookmark"></i> Host</label>
+        <input type="text" id="node-config-input-host">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-port"><i class="icon-bookmark"></i> Port</label>
+        <input type="text" id="node-config-input-port">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-localhost"><i class="icon-bookmark"></i> Local Host</label>
+        <input type="text" id="node-config-input-localhost">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-knxid"><i class="icon-bookmark"></i> Local KNX ID</label>
+        <input type="text" id="node-config-input-knxid">
+    </div>
+    <a id="node-discovery" class="btn"><i id="node-discovery-icon" class="fa fa-search"></i></a>
+</script>

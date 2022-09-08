@@ -1,0 +1,126 @@
+<script type="text/javascript">
+    RED.nodes.registerType('knx', {
+        category: 'KNX',
+        color: '#a6bbcf',
+        defaults: {
+            name: { value: "" },
+            server: { value: "", type: "knx-gateway" },
+            knxid: { value: "", required: false },
+            knxtype: { value: "switch", required: true },
+            outputMode: { value: "value", required: true }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "",
+        label: function () {
+            return this.name || this.knxid || "knx";
+        },
+    });
+</script>
+
+<script type="text/html" data-template-name="knx">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-tasks"></i> KNX Gateway</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-knxid"><i class="fa fa-random"></i> knxid</label>
+        <input type="text" id="node-input-knxid" style="width:60%;" placeholder="e.g. 2.2.7"/>
+    </div>
+    <div class="form-row">
+        <label for="node-input-knxtype"><i class="icon-tag"></i> knxid</label>
+        <select id="node-input-knxtype">
+            <option value="alarm" >alarm</option>
+            <option value="angle" >angle</option>
+            <option value="binary" >binary</option>
+            <option value="date" >date</option>
+            <option value="dimmingcontrol" >dimmingcontrol</option>
+            <option value="enable" >enable</option>
+            <option value="lux" >lux</option>
+            <option value="percentage" >percentage</option>
+            <option value="percentagescaling" >percentagescaling</option>
+            <option value="scene" >scene</option>
+            <option value="scenecontrol" >scenecontrol</option>
+            <option value="speed" >speed</option>
+            <option value="startstop" >startstop</option>
+            <option value="step" >step</option>
+            <option value="switch" >switch</option>
+            <option value="temperature" >temperature</option>
+            <option value="time" >time</option>
+            <option value="trigger" >trigger</option>
+            <option value="updown" >updown</option>
+        </select>
+    </div>
+    </div>
+        <div class="form-row">
+        <label for="node-input-outputMode"><i class="icon-tag"></i> Output Mode:</label>
+        <select id="node-input-outputMode">
+            <option value=""></option>
+            <option value="value">Output KNX Object value</option>
+            <option value="json">Output json KNX node</option>
+            <option value="raw">Output KNX node raw data</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-read" style="display:inline-block; width:auto; vertical-align:top;">
+        <label for="node-input-read" style="width:70%;"><i class="icon-tag"></i> Read initial vale of path on deploy/restart?</label>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="knx">
+    <p>A newtwork node that connects to a KNX IP Gateway.</p>
+    <h3>Inputs</h3>
+    <ol class="node-ports">
+        <li>switch input
+            <dt>payload
+                <span class="property-type">boolean</span>
+            </dt>
+            <dd> A boolean that will be used to turn on/off a switch.  </dd>
+        </li>
+        <li>percentage input
+            <dt>payload
+                <span class="property-type">number</span>
+            </dt>
+            <dd> A number between 0 and 100 to set a percentage object.</dd>            
+        </li>
+    </ol>
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>raw output
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">string</span></dt>
+                <dd>hex encoded buffer string as received from KNX Gateway and not decoded.</dd>
+            </dl>
+        </li>
+        <li>json output
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">object</span></dt>
+                <dd>A JavaScript object containing the result of the function call.</dd>
+            </dl>
+        </li>
+        <li>value output
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">object</span></dt>
+                <dd>Same as input.</dd>
+            </dl>
+        </li>
+    </ol>
+    <h3>Details</h3>
+    <p><code>msg.payload</code> is used as a string to set the value of the parameter in case of Ember Parameter.
+        For an Ember Function, it should contain the list of arguments to pass to the function.
+        It can be in the form of a string that will be converted to a javascript object.
+        Or you can pass a JSON object directly in <code>msg.payload.args</code>.</p>
+    <p>Each argument should have a type and a value. ie: <code>{"type": 1, value: 88}</code></p>
+    <p>The argument types are <code>1: integer,  2: real, 3: string, 4: bool, 5: trigger, 6: enum, 7: octets</code></p>
+    <p>The output for a function is the result of the function call. It is a javascript object like <code>{"invocationId":5,"success":true,"result":[{"type":"integer","value":105}]}</code></p>
+
+    <h3>References</h3>
+    <ul>
+        <li><a>https://github.com/dufourgilles/knx-ip</a> - the nodes github repository</li>
+    </ul>
+</script>
